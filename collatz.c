@@ -35,6 +35,7 @@ int collatz(int result)
     return RN, steps;
 }
 
+
 int main()
 {
     int collatzResult = 0;
@@ -43,6 +44,4 @@ int main()
 
     RN = collatz(collatzResult);
     steps = collatz(collatzResult);
-    
-
 }
