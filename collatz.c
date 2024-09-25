@@ -1,15 +1,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-int collatz(int result)
+int collatz(int result, int N, int Min, int Max, int steps)
 {
-    int N;
-    int Max;
-    int Min;
-    int RN;
-    int steps = 0;
+    result = 0;
+    int RN = 0;
 
-    scanf("%d %d %d", N, Min, Max);
     for (int ix = 0; ix <= N; ix++)
     {
         RN = rand() % (Max - Min);
@@ -25,23 +21,33 @@ int collatz(int result)
         }
         if (result != 1)
         {
-            collatz(result);
+            collatz(result, N, Min, Max, steps);
         }
         else if (result == 1)
         {
-            break;
+            ix++;
         }
     }
+
     return RN, steps;
 }
 
-
-int main()
+int main(int __argc, char *__argv[])
 {
     int collatzResult = 0;
+    int steps = 0;
+    int N = 0;
+    int Min = 0;
+    int Max = 0;
+    int result = 0;
     int RN = 0;
-    int steps;
+if(__argc == 4){
+    N = atoi(__argv[1]);
+    Min = atoi(__argv[2]);
+    Max = atoi(__argv[3]);
+    RN, steps = collatz(result, N, Min, Max, steps);
 
-    RN = collatz(collatzResult);
-    steps = collatz(collatzResult);
+    printf("%d", RN);
+    printf("%d", steps);
+}
 }
