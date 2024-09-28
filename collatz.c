@@ -95,3 +95,6 @@ int main(int __argc, char *__argv[])
     free(cache);
     return 0;
 }
+
+
+//I will implement that time counter that he said in lecture. Moreover look at 44:03 in lecture. 
