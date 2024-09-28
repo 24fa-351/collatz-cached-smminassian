@@ -89,7 +89,7 @@ int main(int __argc, char *__argv[])
     
     cache = collatz_wrapper(N, Min, Max, cacheSize);
     for(int i = 0; i < cacheSize; i++){
-        printf("N: %d  Steps: %d ", cache[i].N, cache[i].Value);
+        printf("%d , %d ", cache[i].N, cache[i].Value);
     }
     }
     free(cache);
