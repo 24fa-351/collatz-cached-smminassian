@@ -5,6 +5,7 @@ typedef struct
 {
     char N;
     int Value;
+    int Count;
 } items;
 
 int cacheIndex = 0;
@@ -58,7 +59,7 @@ items *collatz_wrapper(int N, int Min, int Max, int cacheSize)
 
     for (int ix = 0; ix <= N; ix++)
     {
-        RN = rand() % (Max - Min);
+        RN = rand() % (Max - Min) + Min;
 
         steps = collatz(RN);
 
@@ -85,13 +86,13 @@ int main(int __argc, char *__argv[])
         Min = atoi(__argv[2]);
         Max = atoi(__argv[3]);
 
-        
+    }
     
     cache = collatz_wrapper(N, Min, Max, cacheSize);
     for(int i = 0; i < cacheSize; i++){
-        printf("%d , %d ", cache[i].N, cache[i].Value);
+        printf("%d , %d\n ", cache[i].N, cache[i].Value);
     }
-    }
+    
     free(cache);
     return 0;
 }
