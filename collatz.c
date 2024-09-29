@@ -30,7 +30,7 @@
 // items *LRU(int cacheSize, items* cache, int count, int cacheIndex){
  
     
-// }
+//// }
 
 // int collatz(int RN)
 // {
