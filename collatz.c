@@ -114,7 +114,7 @@
 
 typedef struct
 {
-    char rN;
+    int rN;
     int steps;
     int Count;
 } items;
@@ -123,9 +123,9 @@ int cacheIndex = 0;
 int count = 0;
 int lruCount = 0;
 
-items* LRU(char key, int steps, items* cache){
+items* LRU(int RN, int steps, items* cache){
     
-    cache[lruCount].rN = key;
+    cache[lruCount].rN = RN;
     cache[lruCount].steps = steps;
     cache[lruCount].Count = lruCount;
     lruCount++;
@@ -135,18 +135,19 @@ items* LRU(char key, int steps, items* cache){
 
 items *input(int RN, int steps, items *cache, int cacheSize)
 {
-    char key;
+    
     if (cacheIndex < cacheSize)
     {
-        key = (char)RN;
-        cache[cacheIndex].rN = key;
+       
+        cache[cacheIndex].rN = RN;
         cache[cacheIndex].steps = steps;
+        cache[cacheIndex].Count = count;
         cacheIndex++;
         count++;
-        cache[cacheIndex].Count = count;
+      
     }
-    else if(cacheIndex > cacheSize){
-        cache = LRU(key, steps, cache);
+    else if(cacheIndex >= cacheSize){
+        cache = LRU(RN, steps, cache);
     }
     
     return cache;
@@ -156,8 +157,6 @@ items *input(int RN, int steps, items *cache, int cacheSize)
 int collatz(int RN)
 {
     int steps = 0;
-    int oneChecker;
-    oneChecker = RN;
 
     while (RN != 1)
     {
@@ -172,11 +171,7 @@ int collatz(int RN)
             RN = (3 * RN) + 1;
             steps++;
         }
-        else if (oneChecker == 1)
-        {
-            steps++;
-            break;
-        }
+       
     }
     return steps;
 }
