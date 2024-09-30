@@ -1,21 +1,16 @@
 #include <stdio.h>
 #include <stdlib.h>
-
-typedef struct
-{
-    int rN;
-    int steps;
-    int Count;
-} myStruct;
-
-int cacheIndex = 0;
-int count = 0;
-int lruCount = 0;
-const int cacheSize = 11;
-int mruCount = (cacheSize-1);
+#include <time.h>
+#include "collatz.h"
 
 
-/*items* LRU(int RN, int steps, items* cache){
+unsigned long long cacheIndex = 0;
+unsigned long long count = 0;
+unsigned long long lruCount = 0;
+unsigned long long mruCount = (cacheSize-1);
+
+
+myStruct* LRU(unsigned long long RN, unsigned long long steps, myStruct* cache){
     
     cache[lruCount].rN = RN;
     cache[lruCount].steps = steps;
@@ -24,19 +19,19 @@ int mruCount = (cacheSize-1);
     
     return cache;
 }
-*/
 
-myStruct* MRU(int RN, int steps, myStruct* cache){
-    
-    cache[mruCount].rN = RN;
-    cache[mruCount].steps = steps;
-    cache[mruCount].Count = mruCount;
-    mruCount--;
-    
-    return cache;
-}
 
-myStruct* input(int RN, int steps, myStruct *cache)
+// myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache){
+    
+//     cache[mruCount].rN = RN;
+//     cache[mruCount].steps = steps;
+//     cache[mruCount].Count = mruCount;
+//     mruCount--;
+    
+//     return cache;
+// }
+
+myStruct* input(unsigned long long RN, unsigned long long steps, myStruct *cache)
 {
     
     if (cacheIndex < cacheSize)
@@ -51,16 +46,31 @@ myStruct* input(int RN, int steps, myStruct *cache)
     }
     else if(cacheIndex >= cacheSize){
         //cache = LRU(RN, steps, cache);
-        cache = MRU(RN, steps, cache);
+        cache = LRU(RN, steps, cache);
     }
     
     return cache;
 }
 
-
-int collatz(int RN)
+unsigned long long collatz(unsigned long long RN)
 {
-    int steps = 0;
+    unsigned long long steps = 0;
+    clock_t start;
+    clock_t end;
+    double timeTaken;
+    unsigned long long originalRN = RN;
+
+    
+    // for(int i = 0; i < cacheSize; i++){
+    //     if(cache == []){
+    //         break;
+    // }
+    //     else if(cache[i].rN == RN){    my brain is fried and i dont know what to put for 
+
+
+    //     }
+    // }
+    start = clock();
 
     while (RN != 1)
     {
@@ -75,17 +85,21 @@ int collatz(int RN)
             RN = (3 * RN) + 1;
             steps++;
         }
-       
     }
+    end = clock();
+    timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
+    printf("%llu\n ", originalRN);
+    //printf("%llu\n", steps);
+    //printf("%f\n",timeTaken);
     return steps;
 }
 
-myStruct* collatz_wrapper(int N, int Min, int Max, myStruct* cache)
+myStruct* collatz_wrapper(unsigned long long N, unsigned long long Min, unsigned long long Max, myStruct* cache)
 {
-    int steps = 0;
-    int RN = 0;
+    unsigned long long steps = 0;
+    unsigned long long RN = 0;
 
-    for (int ix = 0; ix < N; ix++)
+    for (unsigned long long ix = 0; ix < N; ix++)
     {
         RN = rand() % (Max - Min) + Min;
 
@@ -101,9 +115,9 @@ myStruct* collatz_wrapper(int N, int Min, int Max, myStruct* cache)
 
 int main(int __argc, char *__argv[])
 {
-    int N = 0;
-    int Min = 0;
-    int Max = 0;
+    unsigned long long N = 0;
+    unsigned long long Min = 0;
+    unsigned long long Max = 0;
 
     myStruct *cache = (myStruct*)malloc(sizeof(myStruct) * cacheSize);
     if (__argc == 4)
@@ -115,8 +129,8 @@ int main(int __argc, char *__argv[])
     }
     
     cache = collatz_wrapper(N, Min, Max, cache);
-    for(int i = 0; i < cacheSize; i++){
-        printf("%d , %d, %d\n ", cache[i].rN, cache[i].steps, cache[i].Count);
+    for(unsigned long long i = 0; i < cacheSize; i++){
+        printf("%llu , %llu, %llu\n ", cache[i].rN, cache[i].steps, cache[i].Count);
     }
     
     free(cache);
