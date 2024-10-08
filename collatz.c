@@ -86,8 +86,8 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
     end = clock();
     timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
     //printf("%llu\n ", originalRN);
-    // printf("%llu\n", steps);
-    // printf("%f\n",timeTaken);
+     //printf("%llu\n", steps);
+     printf("%f\n",timeTaken);
     return steps;
 }
 
