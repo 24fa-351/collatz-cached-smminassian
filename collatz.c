@@ -12,11 +12,12 @@ unsigned long long cacheMiss = 0;
 
 myStruct *LRU(unsigned long long RN, unsigned long long steps, myStruct *cache)
 {
+    if(lruCount < cacheSize){
     cache[lruCount].rN = RN;
     cache[lruCount].steps = steps;
     cache[lruCount].Count = lruCount;
     lruCount++;
-
+    }
     return cache;
 }
 
@@ -54,10 +55,10 @@ myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache
 unsigned long long collatz(unsigned long long RN, myStruct *cache)
 {
     unsigned long long steps = 0;
-   
+
     unsigned long long originalRN = RN;
 
-    if(sizeof((cache)) > 0){
+    if(cacheSize > 0){
         for (int i = 0; i < cacheIndex; i++)
     {
         if (cache[i].rN == RN)
@@ -68,7 +69,6 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
     }
     }
 
-    
     while (RN != 1)
     {
 
@@ -138,9 +138,10 @@ int main(int __argc, char *__argv[])
     cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100;
     for (unsigned long long i = 0; i < cacheSize; i++)
     {
-        printf("%llu , %llu, %llu, %1.0f percent \n", cache[i].rN, cache[i].steps, cache[i].Count, cacheHitPercent);
+        printf("%llu , %llu, %llu \n", cache[i].rN, cache[i].steps, cache[i].Count);
     }
-
+    printf("%1.0f percent", cacheHitPercent);
+    printf("%4.9f\n",timeTaken);
     free(cache);
     return 0;
 }
