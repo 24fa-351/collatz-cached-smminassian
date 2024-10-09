@@ -54,12 +54,11 @@ myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache
 unsigned long long collatz(unsigned long long RN, myStruct *cache)
 {
     unsigned long long steps = 0;
-    clock_t start;
-    clock_t end;
-    double timeTaken;
+   
     unsigned long long originalRN = RN;
 
-    for (int i = 0; i < cacheIndex; i++)
+    if(sizeof((cache)) > 0){
+        for (int i = 0; i < cacheIndex; i++)
     {
         if (cache[i].rN == RN)
         {
@@ -67,8 +66,9 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
            return steps;
         }
     }
-    start = clock();
+    }
 
+    
     while (RN != 1)
     {
 
@@ -83,11 +83,6 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
             steps++;
         }
     }
-    end = clock();
-    timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
-    //printf("%llu\n ", originalRN);
-     //printf("%llu\n", steps);
-     printf("%f\n",timeTaken);
     return steps;
 }
 
@@ -122,6 +117,10 @@ int main(int __argc, char *__argv[])
     unsigned long long Max = 0;
     double cacheHitPercent = 0;
 
+    clock_t start;
+    clock_t end;
+    double timeTaken;
+
     myStruct *cache = (myStruct *)malloc(sizeof(myStruct) * cacheSize);
     if (__argc == 4)
     {
@@ -129,8 +128,13 @@ int main(int __argc, char *__argv[])
         Min = atoi(__argv[2]);
         Max = atoi(__argv[3]);
     }
-
+    start = clock();
     cache = collatz_wrapper(N, Min, Max, cache);
+    end = clock();
+    timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
+    //printf("%llu\n ", originalRN);
+     //printf("%llu\n", steps);
+    printf("%4.9f\n",timeTaken);
     cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100;
     for (unsigned long long i = 0; i < cacheSize; i++)
     {
