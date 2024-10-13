@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <time.h>
+#include <math.h>
 #include "collatz.h"
 
 unsigned long long cacheIndex = 0;
@@ -134,14 +135,13 @@ int main(int __argc, char *__argv[])
     timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
     //printf("%llu\n ", originalRN);
      //printf("%llu\n", steps);
-    printf("%4.9f\n",timeTaken);
-    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100;
+    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 1000; 
+
     for (unsigned long long i = 0; i < cacheSize; i++)
     {
-        printf("%llu , %llu, %llu \n", cache[i].rN, cache[i].steps, cache[i].Count);
+        printf("%llu , %llu, %llu, %2.0f percent \n", cache[i].rN, cache[i].steps, cache[i].Count, cacheHitPercent);
     }
-    printf("%1.0f percent", cacheHitPercent);
-    printf("%4.9f\n",timeTaken);
+    printf("%4.9f seconds\n",timeTaken);
     free(cache);
     return 0;
 }
