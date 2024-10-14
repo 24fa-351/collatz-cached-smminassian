@@ -9,10 +9,10 @@ typedef struct
 } myStruct;
 
 
-const unsigned long long cacheSize = 19000; //1758 is the smallest cache that can get a cache hit rate of 30%
+const unsigned long long cacheSize = 10; //19,000 is the smallest cache that can get a cache hit rate of 30%
 
-//myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
-myStruct* LRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
+myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
+//myStruct* LRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
 
 
 myStruct* input(unsigned long long RN, unsigned long long steps, myStruct *cache);

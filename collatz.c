@@ -10,26 +10,26 @@ unsigned long long mruCount = (cacheSize - 1);
 unsigned long long cacheHit = 0;
 unsigned long long cacheMiss = 0;
 
-myStruct *LRU(unsigned long long RN, unsigned long long steps, myStruct *cache)
-{
-    if(lruCount < cacheSize){
-    cache[lruCount].rN = RN;
-    cache[lruCount].steps = steps;
-    cache[lruCount].Count = lruCount;
-    lruCount++;
-    }
-    return cache;
-}
-
-// myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache){
-
-//     cache[mruCount].rN = RN;
-//     cache[mruCount].steps = steps;
-//     cache[mruCount].Count = mruCount;
-//     mruCount--;
-
+// myStruct *LRU(unsigned long long RN, unsigned long long steps, myStruct *cache)
+// {
+//     if(lruCount < cacheSize){
+//     cache[lruCount].rN = RN;
+//     cache[lruCount].steps = steps;
+//     cache[lruCount].Count = lruCount;
+//     lruCount++;
+//     }
 //     return cache;
 // }
+
+myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache){
+
+    cache[mruCount].rN = RN;
+    cache[mruCount].steps = steps;
+    cache[mruCount].Count = mruCount;
+    mruCount--;
+
+    return cache;
+}
 
 myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache)
 {
@@ -46,7 +46,7 @@ myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache
     else if (cacheIndex >= cacheSize)
     {
         // cache = LRU(RN, steps, cache);
-        cache = LRU(RN, steps, cache);
+        cache = MRU(RN, steps, cache);
     }
 
     return cache;
@@ -140,7 +140,7 @@ int main(int __argc, char *__argv[])
     {
         printf("%llu , %llu, %llu, %2.0f percent \n", cache[i].rN, cache[i].steps, cache[i].Count, cacheHitPercent);
     }
-    printf("%4.9f seconds\n",timeTaken);
+    printf("%4.100f seconds\n",timeTaken);
     free(cache);
     return 0;
 }
