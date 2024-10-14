@@ -83,6 +83,7 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
             steps++;
         }
     }
+    printf("%llu\n", originalRN);
     return steps;
 }
 
@@ -106,7 +107,6 @@ myStruct *collatz_wrapper(unsigned long long N, unsigned long long Min, unsigned
             cache = input(RN, steps, cache);
         }
     }
-
     return cache;
 }
 
@@ -133,7 +133,7 @@ int main(int __argc, char *__argv[])
     end = clock();
     timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
     //printf("%llu\n ", originalRN);
-     //printf("%llu\n", steps);
+    //printf("%llu\n", steps);
     cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 1000; 
 
     for (unsigned long long i = 0; i < cacheSize; i++)
