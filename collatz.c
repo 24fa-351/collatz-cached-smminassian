@@ -23,12 +23,16 @@ unsigned long long cacheMiss = 0;
 
 myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache){
 
+    if(mruCount < cacheSize){
+
+    
     cache[mruCount].rN = RN;
     cache[mruCount].steps = steps;
     cache[mruCount].Count = mruCount;
     mruCount--;
 
     return cache;
+}
 }
 
 myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache)
