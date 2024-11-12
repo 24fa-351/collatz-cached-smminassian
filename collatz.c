@@ -3,11 +3,11 @@
 #include <time.h>
 #include "collatz.h"
 
-const unsigned long long cacheSize = 19000; //19,000 is the smallest cache that can get a cache hit rate of 30%
+const unsigned long long cacheSize = 11; //19,000 is the smallest cache that can get a cache hit rate of 30%
 unsigned long long cacheIndex = 0;
 unsigned long long count = 0;
 unsigned long long lruCount = 0;
-unsigned long long mruCount =18999;
+unsigned long long mruCount = 11;
 unsigned long long cacheHit = 0;
 unsigned long long cacheMiss = 0;
 
@@ -101,8 +101,9 @@ myStruct *collatz_wrapper(unsigned long long N, unsigned long long Min, unsigned
 {
     unsigned long long steps = 0;
     unsigned long long RN = 0;
+   
 
-    for (unsigned long long ix = 0; ix < N; ix++)
+    for (unsigned long long ix = 0; ix <= N; ix++)
     {
         RN = rand() % (Max - Min + 1) + Min;
 
@@ -139,17 +140,21 @@ int main(int argc, char *argv[])
         Min = atoi(argv[2]);
         Max = atoi(argv[3]);
     }
+
+    if(N == cacheSize){
+        N++;
+    }
     start = clock();
     cache = collatz_wrapper(N, Min, Max, cache);
     end = clock();
     timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
     // printf("%llu\n ", originalRN);
     // printf("%llu\n", steps);#include "collatz.h"
-    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 1000;
+    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100;
 
-    for (unsigned long long i = 0; i < cacheSize; i++)
+    for (unsigned long long jx = 0; jx < cacheSize; jx++)
     {
-        printf("%llu , %llu, %llu, %2.0f percent \n", cache[i].rN, cache[i].steps, cache[i].Count, cacheHitPercent);
+        printf("%llu , %llu, %llu, %2.0f percent \n", cache[jx].rN, cache[jx].steps, cache[jx].Count, cacheHitPercent);
     }
     printf("%4.100f seconds\n", timeTaken);
     free(cache);
