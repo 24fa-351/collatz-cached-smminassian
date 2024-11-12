@@ -3,10 +3,11 @@
 #include <time.h>
 #include "collatz.h"
 
+const unsigned long long cacheSize = 19000; //19,000 is the smallest cache that can get a cache hit rate of 30%
 unsigned long long cacheIndex = 0;
 unsigned long long count = 0;
 unsigned long long lruCount = 0;
-unsigned long long mruCount = 18999;
+unsigned long long mruCount =18999;
 unsigned long long cacheHit = 0;
 unsigned long long cacheMiss = 0;
 
@@ -61,6 +62,11 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
 
     unsigned long long originalRN = RN;
 
+    if(RN == 0){
+        steps = 1;
+        return steps;
+    }
+
     if (cacheSize > 0)
     {
         for (int i = 0; i < cacheIndex; i++)
@@ -114,7 +120,7 @@ myStruct *collatz_wrapper(unsigned long long N, unsigned long long Min, unsigned
     return cache;
 }
 
-int main(int __argc, char *__argv[])
+int main(int argc, char *argv[])
 {
     unsigned long long N = 0;
     unsigned long long Min = 0;
@@ -126,11 +132,12 @@ int main(int __argc, char *__argv[])
     double timeTaken;
 
     myStruct *cache = (myStruct *)malloc(sizeof(myStruct) * cacheSize);
-    if (__argc == 4)
+
+    if (argc == 4)
     {
-        N = atoi(__argv[1]);
-        Min = atoi(__argv[2]);
-        Max = atoi(__argv[3]);
+        N = atoi(argv[1]);
+        Min = atoi(argv[2]);
+        Max = atoi(argv[3]);
     }
     start = clock();
     cache = collatz_wrapper(N, Min, Max, cache);
