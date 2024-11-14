@@ -152,7 +152,7 @@ int main(int argc, char *argv[])
     {
         printf("%llu , %llu, %llu, %2.0f percent \n", cache[jx].rN, cache[jx].steps, cache[jx].Count, cacheHitPercent);
     }
-    printf("%4.100f seconds\n", timeTaken);
+    printf("%4.1f seconds\n", timeTaken);
     free(cache);
     return 0;
 }
