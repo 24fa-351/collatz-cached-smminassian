@@ -3,11 +3,13 @@
 #include <time.h>
 #include "collatz.h"
 
-unsigned long long cacheSize = 7; //19,000 is the smallest cache that can get a cache hit rate of 30%
+//19,000 is the smallest cache that can get a cache hit rate of 30% for LRU
+//11450 is the smallest cache that can get a cache hit rate of 30% for LRU
+unsigned long long cacheSize = 30; // So if you want to run my code, you need to change this number to the cache size that you want
 unsigned long long cacheIndex = 0;
 unsigned long long count = 0;
 unsigned long long lruCount = 0;
-unsigned long long mruCount = 6;
+unsigned long long mruCount = 29; //Whatever your cachesize is, set mruCount to cacheSize - 1. Couldnt put cacheSize - 1 here it would throw errors
 unsigned long long cacheHit = 0;
 unsigned long long cacheMiss = 0;
 
@@ -33,6 +35,7 @@ myStruct *MRU(unsigned long long RN, unsigned long long steps, myStruct *cache)
 
 myStruct *input(unsigned long long RN, unsigned long long steps, myStruct *cache)
 {
+    
     if (cacheIndex < cacheSize){
     
        
@@ -63,9 +66,9 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
 
     if (cacheSize > 0)
     {
-        for (int i = 0; i < cacheIndex; i++)
+        for (int wx = 0; wx < cacheIndex; wx++)
         {
-            if (cache[i].rN == RN)
+            if (cache[wx].rN == RN)
             {
                 steps = -1;
                 return steps;
@@ -87,7 +90,8 @@ unsigned long long collatz(unsigned long long RN, myStruct *cache)
             steps++;
         }
     }
-    printf("%llu\n", originalRN);
+    //printf("%llu\n", originalRN);
+    printf("%llu\n", steps);
     return steps;
 }
 
@@ -110,9 +114,6 @@ myStruct *collatz_wrapper(unsigned long long N, unsigned long long Min, unsigned
         else
         {
             cacheHit++;
-            RN = 0;
-            steps = 0;
-            cache = input(RN, steps, cache);
         }
     }
     return cache;
@@ -145,14 +146,13 @@ int main(int argc, char *argv[])
     cache = collatz_wrapper(N, Min, Max, cache);
     end = clock();
     timeTaken = ((double)(end - start)) / CLOCKS_PER_SEC;
-    // printf("%llu\n", steps);#include "collatz.h"
-    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100;
-
+    cacheHitPercent = ((double)cacheHit / (cacheHit + (double)cacheMiss)) * 100.0;
+    
     for (unsigned long long jx = 0; jx < cacheSize; jx++)
     {
         printf("%llu , %llu, %llu, %2.0f percent \n", cache[jx].rN, cache[jx].steps, cache[jx].Count, cacheHitPercent);
     }
-    printf("%4.1f seconds\n", timeTaken);
+    printf("%4.10f seconds\n", timeTaken);
     free(cache);
     return 0;
 }
