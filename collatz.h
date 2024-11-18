@@ -10,8 +10,8 @@ typedef struct
 
 
 
-myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
-//myStruct* LRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
+//myStruct* MRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
+myStruct* LRU(unsigned long long RN, unsigned long long steps, myStruct* cache);
 
 
 myStruct* input(unsigned long long RN, unsigned long long steps, myStruct *cache);
